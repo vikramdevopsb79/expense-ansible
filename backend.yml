@@ -1,0 +1,58 @@
+- name: backend playbook
+  hosts: all
+  become: true
+  tasks:
+    - name: set prompt
+      ansible.built.in.shell: set- prompt backend
+    - name: disable nodejs module
+      ansible.built.in.shell: dnf module disable nodejs -y
+    - name:  enable nodejs modules
+      ansible.built.in.shell: dnf module enable nodejs:20 -y
+    - name: Install a dnf package
+      ansible.built.in.dnf:
+          name: nodejs
+          state: Present
+    - name: Adding User
+      ansible.builtin.user:
+        name: expense
+    - name: Copy service file to remote host
+      ansible.builtin.copy:
+        src: backend.service
+        dest: /etc/systemd/system/backend.service
+
+    - name: Remove directory
+      ansible.built.in.file:
+        path: app
+        state: absent
+    - name: Create directory
+      ansible.built.in.file:
+        path: app
+        state: directory
+    - name: Download &Extract files
+      ansible.built.in.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
+        dest: /tmp/backend.zip
+        remote_src: true
+    - name: Install nodejs dependencies
+      community.general.npm:
+        path: /app
+        state: latest
+    - name: Install a dnf package
+      ansible.built.in.dnf:
+        name: mysql
+        state: Present
+    - name: Load schema
+      community.mysql.mysql_db:
+        state: import
+        name: all
+        target: /app/schema/backend.sql
+        login_user: root
+        login_password: ExpenseApp@1
+        login_host:
+    - name: Restart the services
+      ansible.built.systemd_services:
+        state: restarted
+        name: backend
+        enabled: true
+        daemon_reload: true
+
