@@ -48,7 +48,7 @@
         target: /app/schema/backend.sql
         login_user: root
         login_password: ExpenseApp@1
-        login_host:
+        login_host: mysql-dev.vikramdevops.tech
     - name: Restart the services
       ansible.built.systemd_services:
         state: restarted
