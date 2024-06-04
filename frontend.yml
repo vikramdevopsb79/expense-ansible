@@ -1,33 +1,38 @@
-- name: Frontend yaml
+- name: Frontend Playbook
   hosts: all
   become: true
   tasks:
-    - name: set prompt
-      ansible.built.in.shell: set-prompt frontend
-    - name: Install a dnf package
-      ansible.built.in.dnf:
+    - name: Set Prompt
+      ansible.builtin.shell: set-prompt frontend
+
+    - name: Installing Nginx
+      ansible.builtin.dnf:
         name: nginx
-        state: Present
-    - name: copy expense config file
-      ansible.built.in.copy:
+        state: present
+
+    - name: Copy expense config file
+      ansible.builtin.copy:
         src: expense.conf
         dest: /etc/nginx/default.d/expense.conf
-    - name: Remove directory
-      ansible.built.in.file:
+
+    - name: Remove Old Html Directory
+      ansible.builtin.file:
         path: /usr/share/nginx/html
         state: absent
-    - name: Create directory
-      ansible.built.in.file:
+
+    - name: Create Html Directory
+      ansible.builtin.file:
         path: /usr/share/nginx/html
         state: directory
-    - name: Download &Extract files
-      ansible.built.in.unarchive:
-         src: https://expense-artifacts.s3.amazonaws.com/expense-frontend-v2.zip
-         dest: /usr/share/nginx/html
-         remote_src: true
-    - name: Restart the services
-      ansible.built.systemd_services:
+
+    - name: Download frontend content & extract
+      ansible.builtin.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/expense-frontend-v2.zip
+        dest: /usr/share/nginx/html
+        remote_src: true
+
+    - name: Start Nginx Service
+      ansible.builtin.systemd_service:
         state: restarted
         name: nginx
         enabled: true
-
