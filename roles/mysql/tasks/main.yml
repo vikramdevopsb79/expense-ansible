@@ -1,7 +1,4 @@
-- name: MySQL Playbook
-  hosts: all
-  become: true
-  tasks:
+
     - name: Installing MySQL Server
       ansible.builtin.dnf:
         name: mysql-server

@@ -1,7 +1,4 @@
-- name: backend playbook
-  hosts: all
-  become: true
-  tasks:
+
     - name: disable nodejs module
       ansible.built.in.shell: dnf module disable nodejs -y
     - name:  enable nodejs modules

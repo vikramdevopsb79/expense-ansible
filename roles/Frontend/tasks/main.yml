@@ -1,7 +1,4 @@
-- name: Frontend Playbook
-  hosts: all
-  become: true
-  tasks:
+
     - name: Installing Nginx
       ansible.builtin.dnf:
         name: nginx
