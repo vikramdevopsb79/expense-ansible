@@ -1,6 +1,6 @@
   - name: disable nodejs module
     ansible.built.in.shell: dnf module disable nodejs -y
-  - name:  enable nodejs modules
+  - name: enable nodejs modules
     ansible.built.in.shell: dnf module enable nodejs:20 -y
   - name: Install a dnf package
     ansible.built.in.dnf:
