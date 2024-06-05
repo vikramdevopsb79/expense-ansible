@@ -2,9 +2,6 @@
   hosts: all
   become: true
   tasks:
-    - name: Setup  Prompt
-      ansible.builtin.shell: set-prompt mysql
-
     - name: Installing MySQL Server
       ansible.builtin.dnf:
         name: mysql-server

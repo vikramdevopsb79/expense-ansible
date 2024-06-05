@@ -1,0 +1,15 @@
+- name: Remove Old  Directory
+  ansible.builtin.file:
+    path: "{{app_path }}"
+    state: absent
+
+- name: Create  Directory
+  ansible.builtin.file:
+    path: "{{app_path }}"
+    state: directory
+
+- name: Download {{ component }} content & extract
+  ansible.builtin.unarchive:
+    src: https://expense-artifacts.s3.amazonaws.com/expense-frontend-v2.zip
+    dest: "{{app_path }}"
+    remote_src: true
