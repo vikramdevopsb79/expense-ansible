@@ -1,9 +1,9 @@
   - name: disable nodejs module
-    ansible.built.in.shell: dnf module disable nodejs -y
+    ansible.builtin.shell: dnf module disable nodejs -y
   - name: enable nodejs modules
-    ansible.built.in.shell: dnf module enable nodejs:20 -y
+    ansible.builtin.shell: dnf module enable nodejs:20 -y
   - name: Install a dnf package
-    ansible.built.in.dnf:
+    ansible.builtin.dnf:
       name: nodejs
       state: Present
   - name: Adding User
@@ -36,7 +36,7 @@
       login_password: ExpenseApp@1
       login_host: mysql-{{env}}.vikramdevops.tech
   - name: Restart the services
-    ansible.built.systemd_services:
+    ansible.builtin.systemd_services:
       state: restarted
       name: backend
       enabled: true
