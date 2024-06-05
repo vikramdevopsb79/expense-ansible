@@ -14,7 +14,7 @@
       src: backend.service
       dest: /etc/systemd/system/backend.service
   - name: Import role dependencies
-    ansible.builtin.role:
+    ansible.builtin.import_role:
       name: common
       tasks_from: app-preq
   - name: Install nodejs dependencies
