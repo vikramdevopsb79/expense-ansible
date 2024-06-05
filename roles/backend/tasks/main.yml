@@ -23,7 +23,7 @@
         tasks_from: app-preq
     - name: Install nodejs dependencies
       community.general.npm:
-        path: "{{app_path}}"
+        path: "{{ app_path }}"
         state: latest
     - name: Install MySQL Client & MySQL Python Module
       ansible.builtin.dnf:
