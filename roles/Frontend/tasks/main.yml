@@ -9,7 +9,7 @@
   - name: Import App Prerequisites
     ansible.builtin.import_role:
       name: common
-      tasks_from: app-prereq
+      tasks_from: app-preq
   - name: Start Nginx Service
     ansible.builtin.systemd_service:
       state: restarted
