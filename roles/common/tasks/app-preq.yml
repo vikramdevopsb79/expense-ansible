@@ -1,12 +1,20 @@
+- name: Print app_path before removing old directory
+  ansible.builtin.debug:
+    msg: "app_path is set to {{ app_path }}"
 - name: Remove Old  Directory
   ansible.builtin.file:
     path: "{{ app_path }}"
     state: absent
-
+- name: Print app_path after creating  directory
+  ansible.builtin.debug:
+    msg: "app_path is set to {{ app_path }}"
 - name: Create  Directory
   ansible.builtin.file:
     path: "{{ app_path }}"
     state: directory
+- name: Print app_path before extracting   directory
+  ansible.builtin.debug:
+    msg: "app_path is set to {{ app_path }}"
 
 - name: Download {{ component }} content & extract
   ansible.builtin.unarchive:
