@@ -38,8 +38,8 @@
       state: import
       name: all
       target: /app/schema/backend.sql
-      login_user: root
-      login_password: ExpenseApp@1
+      login_user: "{{ secrets.MY_SQL_USER }}"
+      login_password: "{{ secrets.MY_SQL_PASS }}"
       login_host: mysql-{{env}}.vikramdevops.tech
   - name: Restart the services
     ansible.builtin.systemd_service:

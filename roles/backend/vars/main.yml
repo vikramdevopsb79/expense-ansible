@@ -1,2 +1,4 @@
 component: backend
 app_path: /app
+env: secret
+secrets: "{{ lookup('community.hashi_vault.hashi_vault', 'secret=expense-{{env}}/data/backend token={{vault_token}} url=https://vault-internal.vikramdevops.tech:8200 validate_certs=false') }}"
