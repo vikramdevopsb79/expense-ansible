@@ -13,7 +13,7 @@
 - name: Copy Node exporter service file
   ansible.builtin.template:
     src: node-exporter.service
-    dest: /etc/systemd/system/prometheus.service
+    dest: /etc/systemd/system/node-exporter.service
 
 - name: Start Node exporter service
   ansible.builtin.systemd_service:
