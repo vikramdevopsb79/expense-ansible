@@ -8,4 +8,4 @@
   ansible.builtin.include_role:
     name: prometheus
     tasks_from: nginx-exporter
-    when: install_nginx_exporter
+  when: install_nginx_exporter
