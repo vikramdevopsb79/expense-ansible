@@ -1,2 +1,3 @@
 component: frontend
 app_path: /usr/share/nginx/html
+install_nginx_exporter: true
