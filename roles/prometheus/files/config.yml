@@ -7,12 +7,13 @@ input:
 grok:
   patterns_dir: ./patterns
 metrics:
-  - type: counter
+  - type: gauge
     name: response_time
     help: Total number of rejected recipients, partitioned by error message.
+    value: '{{.response_time}}'
     match: '%{IP:client_ip}%{SPACE}%{HTTPDATE:time}%{SPACE}%{WORD:http_method}%{SPACE}%{PATH:http_path}%{SPACE}%{WORD}/%{NUMBER:http_version}%{SPACE}%{NUMBER:response_codes}%{SPACE}%{NUMBER:body_size_sent}%{SPACE}%{URI}%{SPACE}%{NUMBER:response_time}'
     labels:
-      response_time: '{{.response_time}}'
+      http_path: '{{.http_path}}'
   - type: counter
     name: response_codes
     help: Total number of rejected recipients, partitioned by error message.
