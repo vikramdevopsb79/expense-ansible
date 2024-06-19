@@ -4,7 +4,7 @@ Description = Grok Exporter Service
 [Service]
 User=root
 WorkingDirectory=/opt/grok_exporter-0.2.8.linux-amd64
-ExecStart=/opt/grok_exporter-0.2.8.linux-amd64/grok_exporter -config ./config.yml
+ExecStart= /bin/bash /opt/grok_exporter-0.2.8.linux-amd64/grok_exporter.sh
 SyslogIdentifier=prometheus
 
 [Install]
