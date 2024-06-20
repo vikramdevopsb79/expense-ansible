@@ -21,13 +21,12 @@
     community.general.npm:
       path: "{{ app_path }}"
       state: latest
-      become_user: "{{app_user}}"
 
-  - name: Download NewRelic Dependencies
-    community.general.npm:
-     name: newrelic
-     path: /app
-    become_user: "{{app_user}}"
+#  - name: Download NewRelic Dependencies
+#    community.general.npm:
+#     name: newrelic
+#     path: /app
+#    become_user: "{{app_user}}"
   - name: Install MySQL Client & MySQL Python Module
     ansible.builtin.dnf:
       name:
