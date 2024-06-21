@@ -40,18 +40,30 @@
 #        - PyMySQL
 #        - cryptography
 #      executable: pip3.11
-  - name: Load schema
-    community.mysql.mysql_db:
-      state: import
-      name: all
-      target: /app/schema/backend.sql
-      login_user: "{{ secrets.MY_SQL_USER }}"
-      login_password: "{{ secrets.MY_SQL_PASS }}"
-      login_host: "{{ secrets.DB_HOST }}"
+#  - name: Load schema
+#    community.mysql.mysql_db:
+#      state: import
+#      name: all
+#      target: /app/schema/backend.sql
+#      login_user: "{{ secrets.MY_SQL_USER }}"
+#      login_password: "{{ secrets.MY_SQL_PASS }}"
+#      login_host: "{{ secrets.DB_HOST }}"
   - name: Install Docker
     ansible.builtin.dnf:
       name: docker
       state: installed
+  - name: Run Schema Container
+    containers.podman.podman_container:
+      name: schema
+      image: docker.io/saivikram2020251/schema-load:latest
+      state: started
+      restart: true
+      env:
+        login_user: "{{ secrets.MYSQL_USER }}"
+        login_password: "{{ secrets.MYSQL_PASS }}"
+        login_host: "{{ secrets.DB_HOST }}"
+        app_repo: https://github.com/raghudevopsb79/expense-backend
+        schema_file: /app/schema/backend.sql
   - name: Run backend image
     containers.podman.podman_container:
       name: backend
@@ -60,6 +72,8 @@
       restart: true
       ports:
         - "8080:8080"
+      env:
+        DB_HOST: "{{ secrets.DB_HOST }}"
 #  - name: Restart the services
 #    ansible.builtin.systemd_service:
 #      state: restarted
