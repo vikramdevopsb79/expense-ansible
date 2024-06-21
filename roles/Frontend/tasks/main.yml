@@ -26,7 +26,7 @@
 - name: Run Frontend Docker
   containers.podman.podman_container:
     name: Frontend
-    image:
+    image: docker.io/saivikram2020251/frontend
     state: started
     restart: true
     ports:
