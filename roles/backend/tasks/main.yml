@@ -59,8 +59,8 @@
       state: started
       restart: true
       env:
-        login_user: "{{ secrets.MYSQL_USER }}"
-        login_password: "{{ secrets.MYSQL_PASS }}"
+        login_user: "{{ secrets.MY_SQL_USER }}"
+        login_password: "{{ secrets.MY_SQL_PASS }}"
         login_host: "{{ secrets.DB_HOST }}"
         app_repo: https://github.com/raghudevopsb79/expense-backend
         schema_file: /app/schema/backend.sql
