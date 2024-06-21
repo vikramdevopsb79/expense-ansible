@@ -1,45 +1,45 @@
-  - name: disable nodejs module
-    ansible.builtin.shell: dnf module disable nodejs -y
-  - name: enable nodejs modules
-    ansible.builtin.shell: dnf module enable nodejs:20 -y
-  - name: Install a dnf package
-    ansible.builtin.dnf:
-      name: nodejs
-      state: present
-  - name: Adding User
-    ansible.builtin.user:
-      name: expense
-  - name: Copy service file to remote host
-    ansible.builtin.template:
-      src: backend.service
-      dest: /etc/systemd/system/backend.service
-  - name: Import role dependencies
-    ansible.builtin.import_role:
-      name: common
-      tasks_from: app-preq
-  - name: Install nodejs dependencies
-    community.general.npm:
-      path: "{{ app_path }}"
-      state: latest
-    become_user: "{{app_user}}"
-
-  - name: Download NewRelic Dependencies
-    community.general.npm:
-     name: newrelic
-     path: /app
-    become_user: "{{app_user}}"
-  - name: Install MySQL Client & MySQL Python Module
-    ansible.builtin.dnf:
-      name:
-        - mysql
-        - python3-PyMySQL
-      state: present
-  - name: Install Python MySQL Client
-    ansible.builtin.pip:
-      name:
-        - PyMySQL
-        - cryptography
-      executable: pip3.11
+#  - name: disable nodejs module
+#    ansible.builtin.shell: dnf module disable nodejs -y
+#  - name: enable nodejs modules
+#    ansible.builtin.shell: dnf module enable nodejs:20 -y
+#  - name: Install a dnf package
+#    ansible.builtin.dnf:
+#      name: nodejs
+#      state: present
+#  - name: Adding User
+#    ansible.builtin.user:
+#      name: expense
+#  - name: Copy service file to remote host
+#    ansible.builtin.template:
+#      src: backend.service
+#      dest: /etc/systemd/system/backend.service
+#  - name: Import role dependencies
+#    ansible.builtin.import_role:
+#      name: common
+#      tasks_from: app-preq
+#  - name: Install nodejs dependencies
+#    community.general.npm:
+#      path: "{{ app_path }}"
+#      state: latest
+#    become_user: "{{app_user}}"
+#
+#  - name: Download NewRelic Dependencies
+#    community.general.npm:
+#     name: newrelic
+#     path: /app
+#    become_user: "{{app_user}}"
+#  - name: Install MySQL Client & MySQL Python Module
+#    ansible.builtin.dnf:
+#      name:
+#        - mysql
+#        - python3-PyMySQL
+#      state: present
+#  - name: Install Python MySQL Client
+#    ansible.builtin.pip:
+#      name:
+#        - PyMySQL
+#        - cryptography
+#      executable: pip3.11
   - name: Load schema
     community.mysql.mysql_db:
       state: import
@@ -48,10 +48,22 @@
       login_user: "{{ secrets.MY_SQL_USER }}"
       login_password: "{{ secrets.MY_SQL_PASS }}"
       login_host: "{{ secrets.DB_HOST }}"
-  - name: Restart the services
-    ansible.builtin.systemd_service:
-      state: restarted
+  - name: Install Docker
+    ansible.builtin.dnf:
+      name: docker
+      state: installed
+  - name: Run backend image
+    containers.podman.podman_container:
       name: backend
-      enabled: true
-      daemon_reload: true
+      image: docker.io/saivikram2020251/backend
+      state: started
+      restart: true
+      ports:
+        - "8080:8080"
+#  - name: Restart the services
+#    ansible.builtin.systemd_service:
+#      state: restarted
+#      name: backend
+#      enabled: true
+#      daemon_reload: true
 

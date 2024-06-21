@@ -1,17 +1,31 @@
-  - name: Installing MySQL Server
-    ansible.builtin.dnf:
-      name: mysql-server
-      state: present
+#  - name: Installing MySQL Server
+#    ansible.builtin.dnf:
+#      name: mysql-server
+#      state: present
+#
+#  - name: Start MySQL Service
+#    ansible.builtin.systemd_service:
+#      name: mysqld
+#      state: restarted
+#      enabled: true
+#
+#  - name: Set Root Password
+#    ansible.builtin.shell: mysql_secure_installation --set-root-pass {{ secrets.MY_SQL_PASS }}
+#    ignore_errors: yes
 
-  - name: Start MySQL Service
-    ansible.builtin.systemd_service:
-      name: mysqld
-      state: restarted
-      enabled: true
 
-  - name: Set Root Password
-    ansible.builtin.shell: mysql_secure_installation --set-root-pass {{ secrets.MY_SQL_PASS }}
-    ignore_errors: yes
-
-
+- name: Install Docker in mysql
+  ansible.builtin.dnf:
+    name: docker
+    state: installed
+- name: Run mysql Docker
+  containers.podman.podman_container:
+    name: mysql
+    image: docker.io/mysql:8.0
+    state: started
+    restart: true
+    ports:
+      - "3306:3306"
+    env:
+      MYSQL_ROOT_PASSWORD: "{{ secrets.MYSQL_PASS }}"
 
