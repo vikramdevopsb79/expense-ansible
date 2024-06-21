@@ -1,22 +1,34 @@
-  - name: Installing Nginx
-    ansible.builtin.dnf:
-      name: nginx
-      state: present
-  - name: Copy nginx config file
-    ansible.builtin.template:
-      src: nginx.conf
-      dest: /etc/nginx/nginx.conf
-  - name: Copy expense config file
-    ansible.builtin.template:
-      src: expense.conf
-      dest: /etc/nginx/default.d/expense.conf
-  - name: Import App Prerequisites
-    ansible.builtin.import_role:
-      name: common
-      tasks_from: app-preq
-  - name: Start Nginx Service
-    ansible.builtin.systemd_service:
-      state: restarted
-      name: nginx
-      enabled: true
+#  - name: Installing Nginx
+#    ansible.builtin.dnf:
+#      name: nginx
+#      state: present
+#  - name: Copy nginx config file
+#    ansible.builtin.template:
+#      src: nginx.conf
+#      dest: /etc/nginx/nginx.conf
+#  - name: Copy expense config file
+#    ansible.builtin.template:
+#      src: expense.conf
+#      dest: /etc/nginx/default.d/expense.conf
+#  - name: Import App Prerequisites
+#    ansible.builtin.import_role:
+#      name: common
+#      tasks_from: app-preq
+#  - name: Start Nginx Service
+#    ansible.builtin.systemd_service:
+#      state: restarted
+#      name: nginx
+#      enabled: true
+- name: Install Docker in Frontend
+  ansible.builtin.dnf:
+    name: docker
+    state: installed
+- name: Run Frontend Docker
+  containers.podman.podman_container:
+    name: Frontend
+    image:
+    state: started
+    restart: true
+    ports:
+      - "80:80"
 
