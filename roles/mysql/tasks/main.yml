@@ -27,5 +27,5 @@
     ports:
       - "3306:3306"
     env:
-      MYSQL_ROOT_PASSWORD: "{{ secrets.MYSQL_PASS }}"
+      MYSQL_ROOT_PASSWORD: "{{ secrets.MY_SQL_PASS }}"
 
