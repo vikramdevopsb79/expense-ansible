@@ -1,3 +1,4 @@
+
 - name: Create exporter user
   ansible.builtin.user:
     name: prometheus

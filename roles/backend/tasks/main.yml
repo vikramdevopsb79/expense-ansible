@@ -22,6 +22,7 @@
 #      path: "{{ app_path }}"
 #      state: latest
 #    become_user: "{{app_user}}"
+# here become_user is added because it is command otherwise owner and group will come if it is files and folders
 #
 #  - name: Download NewRelic Dependencies
 #    community.general.npm:

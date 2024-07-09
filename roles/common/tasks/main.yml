@@ -1,5 +1,6 @@
 - name: Set Prompt
   ansible.builtin.shell: set-prompt {{ component }}-{{ env }}
+  #to install as dependencies for every node in node exporter
 - name: Setup Node Exporter
   ansible.builtin.import_role:
     name: prometheus
