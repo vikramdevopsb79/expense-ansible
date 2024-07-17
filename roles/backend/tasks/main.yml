@@ -63,7 +63,7 @@
         login_user: "{{ secrets.MY_SQL_USER }}"
         login_password: "{{ secrets.MY_SQL_PASS }}"
         login_host: "{{ secrets.DB_HOST }}"
-        app_repo: https://github.com/vikramdevopsorg/expense-backend.git
+        app_repo: https://github.com/vikramdevopsb79/expense-backend.git
         schema_file: /app/schema/backend.sql
   - name: Run backend image
     containers.podman.podman_container:
