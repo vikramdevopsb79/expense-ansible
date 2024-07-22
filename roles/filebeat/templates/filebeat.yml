@@ -154,7 +154,7 @@ setup.kibana:
 # ------------------------------ Logstash Output -------------------------------
 output.logstash:
   # The Logstash hosts
-  hosts: ["elk-internal.vikramdevops.tech:5044"]
+  hosts: ["elk-internal.vikramdevops.store:5044"]
 
   # Optional SSL. By default is off.
   # List of root certificates for HTTPS server verifications
